@@ -1,0 +1,4 @@
+# Service components will be placed here
+# - ServiceCard.tsx
+# - ServiceGrid.tsx
+# - ProcessTimeline.tsx

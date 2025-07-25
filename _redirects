@@ -1,0 +1,24 @@
+# Cloudflare Pages Redirects Configuration
+
+# SPA Fallback - redirect all non-file requests to index.html
+/*    /index.html   200
+
+# Force HTTPS
+http://designstudio.pages.dev/*  https://designstudio.pages.dev/:splat  301!
+http://www.designstudio.pages.dev/*  https://designstudio.pages.dev/:splat  301!
+
+# Redirect common paths
+/home    /    301
+/about   /#services    301
+/work    /#portfolio   301
+/contact /#contact     301
+
+# Handle legacy URLs (if migrating from another site)
+/old-portfolio/*  /#portfolio  301
+/old-services/*   /#services   301
+
+# API redirects (if needed)
+/api/contact  https://formspree.io/f/your-form-id  200
+
+# 404 fallback
+/404.html  /index.html  404
