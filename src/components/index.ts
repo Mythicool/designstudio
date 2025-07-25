@@ -15,7 +15,12 @@ export * from './services';
 // Portfolio components
 export { ImageCarousel } from './portfolio/ImageCarousel';
 export { PortfolioGrid } from './portfolio/PortfolioGrid';
+export { PortfolioPage } from './portfolio/PortfolioPage';
+export { PortfolioFilters } from './portfolio/PortfolioFilters';
+export { PortfolioStats } from './portfolio/PortfolioStats';
+export { FeaturedProjects } from './portfolio/FeaturedProjects';
 export { ProjectCard } from './portfolio/ProjectCard';
+export { ProjectDetail } from './portfolio/ProjectDetail';
 
 // UI components
 export { ProgressiveImage } from './ui/ProgressiveImage';
@@ -25,3 +30,4 @@ export { PerformanceMonitor, PerformanceOptimizer } from './ui/PerformanceMonito
 
 // Demo components
 export { PerformanceDemo } from './demo/PerformanceDemo';
+export { PortfolioDemo } from './demo/PortfolioDemo';

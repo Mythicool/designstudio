@@ -30,7 +30,7 @@ export interface Project {
   id: string
   title: string
   description: string
-  category: 'web' | 'mobile' | 'branding' | 'ui-ux'
+  category: 'web' | 'mobile' | 'branding' | 'ui-ux' | 'fintech' | 'vr-ar'
   images: Image[]
   technologies: string[]
   client: string
@@ -62,7 +62,7 @@ export interface ContactForm {
   name: string
   email: string
   company?: string
-  projectType: 'web' | 'mobile' | 'branding' | 'consultation'
+  projectType: 'web' | 'mobile' | 'branding' | 'ui-ux' | 'fintech' | 'vr-ar' | 'consultation'
   budget: 'under-10k' | '10k-25k' | '25k-50k' | '50k+'
   message: string
   timeline?: string

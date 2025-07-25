@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Showcase - Design Studio</title>
+    <meta name="description" content="Comprehensive portfolio showcase with interactive demos and project galleries">
+    
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Critical CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #f3e3ea;
+            background: #12242e;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        #root {
+            min-height: 100vh;
+        }
+        
+        /* Loading state */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: 1.2rem;
+            color: #c4b5a0;
+        }
+        
+        .loading::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid #50afb6;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            margin-left: 10px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .desktop-only {
+                display: none !important;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-tablet-only {
+                display: none !important;
+            }
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1c2e38;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #50afb6;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a9ca3;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="loading">Loading Portfolio Demo</div>
+    </div>
+    
+    <!-- React and dependencies -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/framer-motion@10/dist/framer-motion.js"></script>
+    
+    <!-- TypeScript compiler for browser -->
+    <script src="https://unpkg.com/typescript@5/lib/typescript.js"></script>
+    
+    <!-- Portfolio Demo Implementation -->
+    <script>
+        // Create a working portfolio demo without complex module loading
+        const { createElement: h, useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { motion, AnimatePresence } = window.FramerMotion || {};
+
+        // Mock project data
+        const mockProjects = [
+            {
+                id: 'proj-001',
+                title: 'E-Commerce Platform Redesign',
+                description: 'Complete redesign and development of a modern e-commerce platform with focus on user experience and conversion optimization.',
+                category: 'web',
+                image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600',
+                technologies: ['React', 'TypeScript', 'Next.js', 'Stripe', 'Tailwind CSS'],
+                client: 'TechStyle Commerce',
+                year: 2024,
+                featured: true,
+                metrics: [
+                    { label: 'Cart Abandonment Reduction', value: '45%' },
+                    { label: 'Mobile Conversion Increase', value: '78%' },
+                    { label: 'User Satisfaction Improvement', value: '23%' }
+                ]
+            },
+            {
+                id: 'proj-002',
+                title: 'AI-Powered Learning Platform',
+                description: 'Educational platform with personalized learning paths, AI tutoring, and interactive coding challenges.',
+                category: 'web',
+                image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600',
+                technologies: ['React', 'Python', 'TensorFlow', 'WebRTC', 'Docker'],
+                client: 'EduTech Innovations',
+                year: 2024,
+                featured: true,
+                metrics: [
+                    { label: 'Course Completion Rate', value: '73%' },
+                    { label: 'Student Satisfaction', value: '89%' },
+                    { label: 'Skill Improvement', value: '156%' }
+                ]
+            },
+            {
+                id: 'proj-003',
+                title: 'FinTech Mobile App',
+                description: 'Native mobile application for personal finance management with AI-powered insights and budgeting tools.',
+                category: 'mobile',
+                image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=800',
+                technologies: ['React Native', 'TypeScript', 'Redux', 'Firebase'],
+                client: 'MoneyWise Financial',
+                year: 2023,
+                featured: true,
+                metrics: [
+                    { label: 'User Engagement', value: '89%' },
+                    { label: 'Savings Goal Achievement', value: '34%' },
+                    { label: 'App Store Rating', value: '4.8/5' }
+                ]
+            },
+            {
+                id: 'proj-004',
+                title: 'Smart Home IoT Dashboard',
+                description: 'Comprehensive IoT dashboard for smart home automation with real-time monitoring and voice control integration.',
+                category: 'ui-ux',
+                image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600',
+                technologies: ['Vue.js', 'Node.js', 'MQTT', 'InfluxDB', 'Grafana'],
+                client: 'SmartLiving Technologies',
+                year: 2023,
+                featured: false,
+                metrics: [
+                    { label: 'Device Management Time Reduction', value: '67%' },
+                    { label: 'Energy Consumption Decrease', value: '34%' },
+                    { label: 'User Satisfaction Score', value: '4.7/5' }
+                ]
+            },
+            {
+                id: 'proj-005',
+                title: 'VR Art Gallery',
+                description: 'Immersive VR experience for showcasing digital art with interactive exhibitions and social features.',
+                category: 'vr-ar',
+                image: 'https://images.unsplash.com/photo-1617802690992-15d93263d3a9?w=800&h=600',
+                technologies: ['Unity', 'C#', 'Oculus SDK', 'Photon Network', 'Blender'],
+                client: 'Digital Arts Collective',
+                year: 2023,
+                featured: false,
+                metrics: [
+                    { label: 'Virtual Exhibitions Hosted', value: '150+' },
+                    { label: 'Global Visitors', value: '25,000+' },
+                    { label: 'Artist Sales Increase', value: '340%' }
+                ]
+            },
+            {
+                id: 'proj-006',
+                title: 'Sustainable Fashion Marketplace',
+                description: 'E-commerce platform focused on sustainable fashion with carbon footprint tracking and ethical brand verification.',
+                category: 'web',
+                image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600',
+                technologies: ['Next.js', 'TypeScript', 'Stripe', 'Prisma', 'PostgreSQL'],
+                client: 'GreenThread Marketplace',
+                year: 2024,
+                featured: false,
+                metrics: [
+                    { label: 'Verified Sustainable Brands', value: '200+' },
+                    { label: 'Eco-Friendly Sales', value: '$2M+' },
+                    { label: 'Carbon Footprint Reduction', value: '45%' }
+                ]
+            }
+        ];
+
+        // Portfolio Stats Component
+        const PortfolioStats = () => {
+            const stats = [
+                { label: 'Projects Completed', value: '150+', icon: '🚀', color: '#50afb6' },
+                { label: 'Happy Clients', value: '89+', icon: '😊', color: '#c77b96' },
+                { label: 'Technologies Mastered', value: '45+', icon: '⚡', color: '#fbe2a7' },
+                { label: 'Years of Experience', value: '8+', icon: '🎯', color: '#50afb6' }
+            ];
+
+            return h('div', { 
+                style: { 
+                    padding: '4rem 2rem', 
+                    textAlign: 'center',
+                    backgroundColor: '#1c2e38',
+                    margin: '2rem 0',
+                    borderRadius: '16px'
+                } 
+            }, [
+                h('h2', { 
+                    style: { 
+                        fontSize: '2rem', 
+                        color: '#f3e3ea', 
+                        marginBottom: '3rem',
+                        fontWeight: '600'
+                    } 
+                }, 'Our Impact in Numbers'),
+                h('div', {
+                    style: {
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                        gap: '2rem',
+                        maxWidth: '1000px',
+                        margin: '0 auto'
+                    }
+                }, stats.map(stat => 
+                    h('div', {
+                        key: stat.label,
+                        style: {
+                            backgroundColor: '#12242e',
+                            padding: '2rem',
+                            borderRadius: '12px',
+                            border: '1px solid #324859',
+                            transition: 'transform 0.3s ease',
+                            cursor: 'pointer'
+                        },
+                        onMouseEnter: (e) => e.target.style.transform = 'translateY(-5px)',
+                        onMouseLeave: (e) => e.target.style.transform = 'translateY(0)'
+                    }, [
+                        h('div', { style: { fontSize: '2rem', marginBottom: '1rem' } }, stat.icon),
+                        h('div', { 
+                            style: { 
+                                fontSize: '2.5rem', 
+                                fontWeight: '700', 
+                                color: stat.color,
+                                marginBottom: '0.5rem'
+                            } 
+                        }, stat.value),
+                        h('div', { 
+                            style: { 
+                                fontSize: '1rem', 
+                                color: '#c4b5a0',
+                                fontWeight: '500'
+                            } 
+                        }, stat.label)
+                    ])
+                ))
+            ]);
+        };
+
+        // Project Card Component
+        const ProjectCard = ({ project }) => {
+            const [isHovered, setIsHovered] = useState(false);
+
+            return h('div', {
+                style: {
+                    backgroundColor: '#1c2e38',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    border: '1px solid #324859',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                    transform: isHovered ? 'translateY(-5px)' : 'translateY(0)',
+                    boxShadow: isHovered ? '0 10px 30px rgba(0,0,0,0.3)' : '0 2px 10px rgba(0,0,0,0.1)'
+                },
+                onMouseEnter: () => setIsHovered(true),
+                onMouseLeave: () => setIsHovered(false)
+            }, [
+                // Image
+                h('div', { style: { position: 'relative', aspectRatio: '16/10' } }, [
+                    h('img', {
+                        src: project.image,
+                        alt: project.title,
+                        style: {
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                        }
+                    }),
+                    h('div', {
+                        style: {
+                            position: 'absolute',
+                            top: '12px',
+                            left: '12px',
+                            backgroundColor: '#50afb6',
+                            color: '#12242e',
+                            padding: '4px 12px',
+                            borderRadius: '20px',
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            textTransform: 'uppercase'
+                        }
+                    }, project.category),
+                    project.featured && h('div', {
+                        style: {
+                            position: 'absolute',
+                            top: '12px',
+                            right: '12px',
+                            backgroundColor: '#c77b96',
+                            color: '#f3e3ea',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            fontSize: '10px',
+                            fontWeight: '600'
+                        }
+                    }, 'Featured')
+                ]),
+                // Content
+                h('div', { style: { padding: '20px' } }, [
+                    h('h3', {
+                        style: {
+                            color: '#f3e3ea',
+                            fontSize: '18px',
+                            fontWeight: '600',
+                            marginBottom: '8px'
+                        }
+                    }, project.title),
+                    h('p', {
+                        style: {
+                            color: '#c4b5a0',
+                            fontSize: '14px',
+                            lineHeight: '1.5',
+                            marginBottom: '16px',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden'
+                        }
+                    }, project.description),
+                    // Technologies
+                    h('div', {
+                        style: {
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: '6px',
+                            marginBottom: '12px'
+                        }
+                    }, project.technologies.slice(0, 3).map(tech =>
+                        h('span', {
+                            key: tech,
+                            style: {
+                                backgroundColor: '#324859',
+                                color: '#50afb6',
+                                padding: '2px 8px',
+                                borderRadius: '12px',
+                                fontSize: '11px',
+                                fontWeight: '500'
+                            }
+                        }, tech)
+                    )),
+                    // Meta
+                    h('div', {
+                        style: {
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            fontSize: '12px',
+                            color: '#c4b5a0'
+                        }
+                    }, [
+                        h('span', {}, project.client),
+                        h('span', {}, project.year)
+                    ])
+                ])
+            ]);
+        };
+
+        // Portfolio Grid Component
+        const PortfolioGrid = () => {
+            const [selectedCategory, setSelectedCategory] = useState('all');
+            const [filteredProjects, setFilteredProjects] = useState(mockProjects);
+
+            const categories = [
+                { id: 'all', label: 'All Projects', icon: '🎯' },
+                { id: 'web', label: 'Web Development', icon: '🌐' },
+                { id: 'mobile', label: 'Mobile Apps', icon: '📱' },
+                { id: 'ui-ux', label: 'UI/UX Design', icon: '🎨' },
+                { id: 'vr-ar', label: 'VR/AR', icon: '🥽' }
+            ];
+
+            useEffect(() => {
+                if (selectedCategory === 'all') {
+                    setFilteredProjects(mockProjects);
+                } else {
+                    setFilteredProjects(mockProjects.filter(p => p.category === selectedCategory));
+                }
+            }, [selectedCategory]);
+
+            return h('div', { style: { padding: '2rem 0' } }, [
+                // Filters
+                h('div', {
+                    style: {
+                        display: 'flex',
+                        justifyContent: 'center',
+                        gap: '12px',
+                        marginBottom: '3rem',
+                        flexWrap: 'wrap'
+                    }
+                }, categories.map(cat =>
+                    h('button', {
+                        key: cat.id,
+                        onClick: () => setSelectedCategory(cat.id),
+                        style: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '12px 20px',
+                            borderRadius: '25px',
+                            border: 'none',
+                            backgroundColor: selectedCategory === cat.id ? '#50afb6' : '#324859',
+                            color: selectedCategory === cat.id ? '#12242e' : '#c4b5a0',
+                            fontSize: '14px',
+                            fontWeight: selectedCategory === cat.id ? '600' : '500',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease'
+                        }
+                    }, [
+                        h('span', {}, cat.icon),
+                        h('span', {}, cat.label)
+                    ])
+                )),
+                // Grid
+                h('div', {
+                    style: {
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                        gap: '2rem'
+                    }
+                }, filteredProjects.map(project =>
+                    h(ProjectCard, { key: project.id, project })
+                ))
+            ]);
+        };
+
+        // Main Portfolio Demo Component
+        const PortfolioDemo = () => {
+            return h('div', {
+                style: {
+                    minHeight: '100vh',
+                    backgroundColor: '#12242e',
+                    color: '#f3e3ea'
+                }
+            }, [
+                // Header
+                h('header', {
+                    style: {
+                        padding: '2rem',
+                        textAlign: 'center',
+                        borderBottom: '1px solid #324859'
+                    }
+                }, [
+                    h('h1', {
+                        style: {
+                            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                            fontWeight: '700',
+                            marginBottom: '1rem',
+                            background: 'linear-gradient(135deg, #f3e3ea 0%, #50afb6 100%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent'
+                        }
+                    }, 'Portfolio Showcase'),
+                    h('p', {
+                        style: {
+                            fontSize: '1.25rem',
+                            color: '#c4b5a0',
+                            maxWidth: '600px',
+                            margin: '0 auto 2rem',
+                            lineHeight: '1.6'
+                        }
+                    }, 'Explore our diverse collection of projects spanning web development, mobile apps, UI/UX design, and emerging technologies.'),
+                    h('a', {
+                        href: 'index.html',
+                        style: {
+                            display: 'inline-block',
+                            padding: '12px 24px',
+                            backgroundColor: '#50afb6',
+                            color: '#12242e',
+                            textDecoration: 'none',
+                            borderRadius: '25px',
+                            fontSize: '16px',
+                            fontWeight: '600',
+                            transition: 'all 0.3s ease'
+                        }
+                    }, '← Back to Main Site')
+                ]),
+                // Content
+                h('main', {
+                    style: {
+                        maxWidth: '1400px',
+                        margin: '0 auto',
+                        padding: '0 2rem'
+                    }
+                }, [
+                    h(PortfolioStats),
+                    h('section', {
+                        style: { padding: '2rem 0' }
+                    }, [
+                        h('h2', {
+                            style: {
+                                fontSize: '2.5rem',
+                                fontWeight: '600',
+                                textAlign: 'center',
+                                marginBottom: '3rem'
+                            }
+                        }, 'Featured Projects'),
+                        h(PortfolioGrid)
+                    ])
+                ])
+            ]);
+        };
+
+        // Initialize the app
+        const container = document.getElementById('root');
+        if (container) {
+            const root = createRoot(container);
+            root.render(h(PortfolioDemo));
+        }
+    </script>
+</body>
+</html>
